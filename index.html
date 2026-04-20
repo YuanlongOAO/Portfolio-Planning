@@ -24,7 +24,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
             color: var(--text-main); 
             line-height: 1.7; 
-            background-color: var(--bg-color); 
+            background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
             scroll-behavior: smooth; /* 点击导航时平滑滚动 */
         }
         
@@ -172,6 +172,131 @@
 </head>
 <body>
     <canvas id="bubbles-canvas"></canvas>
+
+<script>
+        // --- JavaScript 实现汽泡动画 ---
+
+        const canvas = document.getElementById('bubbles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let bubbles = [];
+
+        // 配置参数
+        const config = {
+            bubbleCount: 150,     // 气泡数量
+            minSize: 1,           // 最小气泡半径
+            maxSize: 5,           // 最大气泡半径
+            minSpeed: 0.5,        // 最小上升速度 (像素/帧)
+            maxSpeed: 2.5,        // 最大上升速度
+            minAlpha: 0.1,        // 最小透明度 (0-1)
+            maxAlpha: 0.6         // 最大透明度
+        };
+
+        // 处理 Canvas 尺寸调整
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        // 创建一个气泡对象
+        class Bubble {
+            constructor() {
+                this.init();
+            }
+
+            // 初始化或重新初始化气泡属性（当气泡到达顶部时）
+            init() {
+                // 水平位置：随机
+                this.x = Math.random() * width;
+                // 垂直位置：初始在画布底部之下
+                this.y = height + (Math.random() * 200);
+                
+                // 半径：随机
+                this.radius = config.minSize + Math.random() * (config.maxSize - config.minSize);
+                
+                // 上升速度：随机（半径越大的气泡上升越快，模拟物理效果）
+                // 这里的速度公式可以根据需要调整，让大小和速度正相关
+                const normalizedSize = (this.radius - config.minSize) / (config.maxSize - config.minSize);
+                this.speed = config.minSpeed + (normalizedSize * (config.maxSpeed - config.minSpeed));
+                
+                // 透明度：随机，让效果更轻盈
+                this.alpha = config.minAlpha + Math.random() * (config.maxAlpha - config.minAlpha);
+            }
+
+            // 更新气泡位置
+            update() {
+                this.y -= this.speed; // 向上移动
+
+                // 当气泡完全超出顶部时，重新从底部生成
+                if (this.y < -this.radius * 2) {
+                    this.init();
+                }
+            }
+
+            // 在 Canvas 上绘制气泡
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.random() * 2 * Math.PI); // 这里修正了一个错误，arc的最后一个参数应该是 Math.PI * 2
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`; // 白色，半透明
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        // 修正 Bubble 类中的 draw 方法错误
+        Bubble.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); // 绘制完整的圆
+            // 给白色气泡增加一个极其微弱的灰色描边，或者让它稍微带一点点深色，增加层次感
+            ctx.fillStyle = `rgba(200, 210, 220, ${this.alpha})`;
+            ctx.fill();
+            ctx.closePath();
+        };
+
+        // 初始化所有气泡
+        function createBubbles() {
+            bubbles = [];
+            for (let i = 0; i < config.bubbleCount; i++) {
+                bubbles.push(new Bubble());
+            }
+        }
+
+        // 主动画循环
+        function animate() {
+            // 每一帧清除上一步的绘制，实现连续动画
+            ctx.clearRect(0, 0, width, height);
+
+            // 遍历所有气泡，更新并绘制
+            for (let i = 0; i < bubbles.length; i++) {
+                bubbles[i].update();
+                bubbles[i].draw();
+            }
+
+            // 请求浏览器进行下一帧的动画
+            requestAnimationFrame(animate);
+        }
+
+        // 启动流程
+        function start() {
+            resizeCanvas();         // 设置初始尺寸
+            createBubbles();        // 创建气泡粒子
+            animate();              // 开始动画循环
+        }
+
+        // 监听窗口缩放事件，确保全屏效果
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            // 在缩放时重新从底部生成气泡，避免它们瞬间跳跃
+            for(let i = 0; i < bubbles.length; i++) {
+                bubbles[i].y = height + (Math.random() * 200);
+            }
+        });
+
+        // 运行脚本
+        start();
+
+    </script>
 
     <nav>
         <a href="#home">Home</a>
