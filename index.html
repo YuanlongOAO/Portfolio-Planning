@@ -136,19 +136,26 @@
         /* 项目媒体 (Images & Videos) */
         .project-media {
             width: 100%;
-            max-height: 450px; /* 限制最大高度，防止竖图霸屏 */
-            object-fit: cover; /* 保证图片不变形 */
-            object-position: center top; /* 优先显示图片顶部 */
+            max-height: 450px;
+            object-fit: cover;
+            object-position: center top;
             border-radius: 12px;
             margin: 20px 0;
             border: 1px solid rgba(0,0,0,0.04);
-            background-color: #f9f9f9; /* 加载时的占位色 */
-            transition: transform 0.3s ease;
+            background-color: #f9f9f9;
+            
+            /* 新增：默认降低 60% 的色彩饱和度，让页面整体色调更统一、冷静 */
+            filter: grayscale(60%); 
+            
+            /* 新增：将动画过渡时间稍微拉长到 0.4秒，并且同时包含缩放和滤镜的变化 */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
         }
         
-        /* 鼠标悬停时图片微微放大（可选的高级微交互） */
+        /* 鼠标悬停时的终极形态 */
         .project-media:hover {
-            transform: scale(1.01);
+            transform: scale(1.02); /* 微微放大，营造“靠近用户”的感觉 */
+            filter: grayscale(0%);  /* 瞬间恢复 100% 全彩，吸引注意力 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* 给图片单独加一层柔和的阴影 */
         }
         
     </style>
