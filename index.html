@@ -132,6 +132,25 @@
 
         /* Footer */
         footer { text-align: center; padding: 60px 0; color: #aaa; font-size: 0.9rem; }
+
+        /* 项目媒体 (Images & Videos) */
+        .project-media {
+            width: 100%;
+            max-height: 450px; /* 限制最大高度，防止竖图霸屏 */
+            object-fit: cover; /* 保证图片不变形 */
+            object-position: center top; /* 优先显示图片顶部 */
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid rgba(0,0,0,0.04);
+            background-color: #f9f9f9; /* 加载时的占位色 */
+            transition: transform 0.3s ease;
+        }
+        
+        /* 鼠标悬停时图片微微放大（可选的高级微交互） */
+        .project-media:hover {
+            transform: scale(1.01);
+        }
+        
     </style>
 </head>
 <body>
@@ -183,6 +202,7 @@
             <div class="project">
                 <h3>2. Air Travel Luggage Management Tablet App</h3>
                 <div class="project-meta">Role: UI/UX Designer</div>
+                <img src="padlet.png" alt="Air Travel App Interface Rendering" class="project-media">
                 <div class="project-links">
                     <a href="https://github.com/YuanlongOAO/Portfolio-Planning/releases/download/UI%2FUX/Air.Travel.Tablet.Wireframes.and.Wireflow.pdf" target="_blank">View Wireframes</a>
                     <a href="https://github.com/YuanlongOAO/Portfolio-Planning/releases/download/UI%2FUX/Air.Travel.Tablet.Hi-Fidelity.Prototype.pdf" target="_blank">View Hi-Fi Prototype</a>
@@ -198,6 +218,7 @@
             <div class="project">
                 <h3>3. Stylized Visual & Motion Design</h3>
                 <div class="project-meta">Role: Motion Designer</div>
+                <video src="After.Effect.Visual.Design.01.mp4" class="project-media" autoplay loop muted playsinline></video>
                 <div class="project-links">
                     <a href="https://github.com/YuanlongOAO/Portfolio-Planning/releases/download/UI%2FUX/After.Effect.Visual.Design.01.mp4" target="_blank">View Motion Design Video</a>
                 </div>
@@ -212,6 +233,7 @@
             <div class="project">
                 <h3>4. Creative Coding Major Project</h3>
                 <div class="project-meta">Role: Creative Technologist | Unit: IDEA9103</div>
+                <img src="CreativeCoding.png" alt="Project Rendering" class="project-media">
                 <div class="project-links">
                     <a href="https://github.com/YuanlongOAO/IDEA9103-Creative-coding-major-project-Public-ysun0283" target="_blank">View Source Code (GitHub)</a>
                 </div>
